@@ -2,7 +2,11 @@
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
 name: Python application
+run-name: Pipeline run by @${{ github.actor }} 
 
+env: # specify environmet variable defined by author
+  name: Johny
+  
 on:
   push:
     branches: [ "main" ]
@@ -13,12 +17,14 @@ on:
 permissions:
   contents: read
 
-jobs:
+jobs: 
   build:
-
     runs-on: ubuntu-latest
 
     steps:
+    - name: create item with token
+      env: # define variable on steps level, github token
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
